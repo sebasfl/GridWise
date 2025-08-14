@@ -1,0 +1,44 @@
+services:
+  trainer-gpu:
+    tty: true          # Permite mantener el contenedor abierto
+    stdin_open: true   # Habilita entrada interactiva
+    build:
+      context: .
+      dockerfile: Dockerfile.gpu
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu, compute, utility]
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./src:/app/src
+    command: python -m src.forecasting.train_catboost_gpu
+
+  dash:
+    build: .
+    container_name: gridwise_dash
+    command: streamlit run dash/app.py --server.port 8501 --server.address 0.0.0.0
+    env_file: .env
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./src:/app/src
+      - ./dash:/app/dash
+    ports:
+      - "8501:8501"
+    restart: unless-stopped
+
+  worker:
+    build: .
+    container_name: gridwise_worker
+    command: python -m src.monitor.run
+    env_file: .env
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./src:/app/src
+    profiles: ["ops"]

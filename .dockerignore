@@ -1,0 +1,12 @@
+# Datos y modelos locales (se montan como volúmenes)
+data/
+models/
+
+# Entornos y herramientas
+.env
+.git/
+.gitignore
+
+# IDE y configuraciones
+.vscode/
+.idea/
