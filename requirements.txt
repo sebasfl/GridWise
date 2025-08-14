@@ -1,0 +1,41 @@
+# --- Core data stack ---
+pandas==2.2.2
+numpy==1.26.4           # widely compatible with ML libs
+pyarrow==15.0.2
+duckdb==0.10.2
+python-dateutil==2.9.0.post0
+tzdata==2024.1          # timezone database (for zoneinfo in containers)
+requests==2.32.3
+tqdm==4.66.4
+joblib==1.3.2
+
+# --- Validation & data quality ---
+pandera==0.18.0
+great-expectations==0.18.12
+
+# --- Features & analytics ---
+scipy==1.12.0
+statsmodels==0.14.2     # SARIMAX baseline
+holidays==0.49          # holiday/working-day flags
+matplotlib==3.8.4
+
+# --- ML models (tree-based with quantiles) ---
+scikit-learn==1.4.2
+lightgbm==4.3.0
+catboost==1.2.5
+
+# --- Explainability ---
+shap==0.45.1            # works well with numpy 1.26
+
+# --- Optimization engine (start simple with LP) ---
+pulp==2.7.0             # linear programming (pure-Python)
+# ortools==9.9.3963     # optional MILP/CP-SAT (commented to keep image slim)
+
+# --- API & serialization ---
+fastapi==0.111.0        # Pydantic v2 compatible
+pydantic==2.7.1
+orjson==3.10.3
+uvicorn[standard]==0.30.1
+
+# --- Dashboard ---
+streamlit==1.33.0

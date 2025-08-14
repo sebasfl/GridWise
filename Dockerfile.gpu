@@ -1,0 +1,29 @@
+# Imagen base con soporte para CUDA y cuDNN
+FROM pytorch/pytorch:2.4.0-cuda12.1-cudnn9-runtime
+
+# Instala dependencias del sistema
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copia el código e instala dependencias de Python
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copia el código fuente
+COPY src ./src
+COPY dash ./dash
+
+# Configura variables de entorno para GPU
+ENV CUDA_VISIBLE_DEVICES=0
+
+# Usuario no-root (seguridad)
+RUN useradd -m runner && chown -R runner:runner /app
+
+
+# Puerto expuesto (opcional)
+EXPOSE 8000
+
+# Comando por defecto (se sobrescribe en docker-compose)
+CMD ["bash"]
