@@ -12,6 +12,10 @@ services:
             - driver: nvidia
               count: 1
               capabilities: [gpu, compute, utility]
+    runtime: nvidia
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=0
+      - NVIDIA_DRIVER_CAPABILITIES=all
     volumes:
       - ./data:/app/data
       - ./models:/app/models
