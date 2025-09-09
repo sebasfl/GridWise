@@ -55,7 +55,7 @@ def time_based_split(df: pd.DataFrame, ts_col: str, valid_frac: float = 0.2):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--parquet", default="/app/data/processed/bdg2_electricity_long.parquet")
+    ap.add_argument("--parquet", default="/app/data/processed/bdg2_electricity_cleaned.parquet")
     ap.add_argument("--building_id", default=None, help="If set, train on a single building. Omit for global model.")
     ap.add_argument("--date_from", default=None, help="Optional ISO date filter start (e.g., 2016-01-01)")
     ap.add_argument("--date_to", default=None, help="Optional ISO date filter end (e.g., 2018-12-31)")

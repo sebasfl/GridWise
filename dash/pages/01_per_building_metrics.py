@@ -5,12 +5,12 @@ import streamlit as st
 import matplotlib.pyplot as plt
 from pathlib import Path
 
-DEFAULT_CSV = "/app/data/eval/per_building_metrics.csv"
-DEFAULT_PARQUET = "/app/data/processed/bdg2_electricity_long.parquet"          # opcional (para NRMSE/WAPE)
-DEFAULT_PREDS   = "/app/data/eval/validation_predictions.parquet"              # opcional (para skill)
+DEFAULT_CSV = "/app/data/evaluation/per_building_metrics.csv"
+DEFAULT_PARQUET = "/app/data/processed/bdg2_electricity_cleaned.parquet"          # opcional (para NRMSE/WAPE)
+DEFAULT_PREDS   = "/app/data/evaluation/validation_predictions.parquet"              # opcional (para skill)
 
-st.set_page_config(page_title="Métricas por edificio", layout="wide")
-st.title("Métricas por edificio (realistas)")
+st.set_page_config(page_title="Métricas por edificio", page_icon="🏢", layout="wide")
+st.title("🏢 Métricas por edificio - Análisis de Performance del Modelo")
 
 # ---------- Carga ----------
 with st.expander("Fuentes de datos", expanded=True):

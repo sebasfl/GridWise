@@ -5,11 +5,11 @@ import matplotlib.pyplot as plt
 from pathlib import Path
 import pyarrow.parquet as pq
 
-RAW_DEFAULT  = "/app/data/processed/bdg2_electricity_long.parquet"
+RAW_DEFAULT  = "/app/data/processed/bdg2_electricity_cleaned.parquet"
 FCST_DEFAULT = "/app/data/forecasts/cb_forecast.parquet"
 
-st.set_page_config(page_title="Pronóstico vs histórico", layout="wide")
-st.title("Pronóstico vs histórico")
+st.set_page_config(page_title="Pronóstico vs histórico", page_icon="📈", layout="wide")
+st.title("📈 Pronóstico vs histórico - Comparación de predicciones")
 
 # -------------------- helpers --------------------
 def parquet_columns(path: str) -> set:

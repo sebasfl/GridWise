@@ -1,17 +1,50 @@
 # dash/app.py
 import streamlit as st
 import pandas as pd
+import numpy as np
+import json
 from pathlib import Path
 
-DEFAULT_PARQUET = "/app/data/processed/bdg2_electricity_long.parquet"
+DEFAULT_PARQUET = "/app/data/processed/bdg2_electricity_cleaned.parquet"
+EVAL_METRICS = "/app/data/evaluation/overall_metrics.json"
+BUILDING_METRICS = "/app/data/evaluation/per_building_metrics.csv"
 
-st.set_page_config(page_title="SmartGrid Dash", layout="wide")
-st.title("SmartGrid – Series por edificio")
+st.set_page_config(page_title="SmartGrid - Model Performance Dashboard", page_icon="🏢", layout="wide")
+st.title("🏢 SmartGrid - Model Performance Dashboard")
 
-parquet_path = st.text_input("Ruta del parquet", DEFAULT_PARQUET)
-resample = st.selectbox("Frecuencia de remuestreo", ["1H", "6H", "1D"], index=2)
-topn = st.slider("Top N (para selección por defecto)", 1, 50, 10)
-name_filter = st.text_input("Filtrar lista de edificios por texto (opcional)", "")
+# Load and display model performance metrics
+@st.cache_data
+def load_evaluation_metrics():
+    try:
+        with open(EVAL_METRICS, 'r') as f:
+            overall = json.load(f)
+        building_metrics = pd.read_csv(BUILDING_METRICS)
+        return overall, building_metrics
+    except FileNotFoundError:
+        return None, None
+
+overall_metrics, building_metrics = load_evaluation_metrics()
+
+if overall_metrics:
+    st.header("📈 Overall Model Performance")
+    col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.metric("RMSE", f"{overall_metrics['rmse']:.4f}")
+    with col2:
+        st.metric("MAE", f"{overall_metrics['mae']:.4f}")
+    with col3:
+        st.metric("R²", f"{overall_metrics['r2']:.4f}")
+    with col4:
+        st.metric("MAPE", f"{overall_metrics['mape']:.2f}%")
+    
+    st.markdown("---")
+
+# Sidebar controls
+st.sidebar.header("🎛️ Visualization Controls")
+parquet_path = st.sidebar.text_input("Ruta del parquet", DEFAULT_PARQUET)
+resample = st.sidebar.selectbox("Frecuencia de remuestreo", ["1H", "6H", "1D"], index=2)
+topn = st.sidebar.slider("Top N (para selección por defecto)", 1, 50, 10)
+name_filter = st.sidebar.text_input("Filtrar lista de edificios por texto (opcional)", "")
 
 p = Path(parquet_path)
 if not p.exists():

@@ -9,7 +9,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Copia el código e instala dependencias de Python
 WORKDIR /app
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Install standard dependencies first  
+RUN pip install --no-cache-dir -r requirements.txt || true
+
+# Install NVIDIA GPU libraries compatible with CUDA 12.1 
+RUN pip install --no-cache-dir --extra-index-url https://pypi.nvidia.com cudf-cu12 cupy-cuda12x || echo "GPU libraries installation failed, continuing..."
 
 # Copia el código fuente
 COPY src ./src

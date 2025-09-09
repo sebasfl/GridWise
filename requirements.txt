@@ -18,6 +18,11 @@ scipy==1.12.0
 statsmodels==0.14.2     # SARIMAX baseline
 holidays==0.49          # holiday/working-day flags
 matplotlib==3.8.4
+seaborn==0.13.2         # statistical visualizations
+
+# --- GPU acceleration ---
+# cudf-cu11==23.12.*      # pandas on GPU (installed separately from NVIDIA index)
+# cupy-cuda11x==12.3.0    # numpy on GPU (installed separately from NVIDIA index)
 
 # --- ML models (tree-based with quantiles) ---
 scikit-learn==1.4.2
